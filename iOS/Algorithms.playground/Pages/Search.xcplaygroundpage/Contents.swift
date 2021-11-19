@@ -21,9 +21,12 @@ func search(arr:[Int], number:Int, algo:SearchAlgoType = .linear) -> Bool {
     }
 }
 
-for algoType in SearchAlgoType.allCases {
-    
-    let result = search(arr: sortedArr, number: Int.random(in: 1...10), algo: algoType)
-    
-    print("\(algoType.rawValue) Search Result :-> \(result) \n")
-}
+//for algoType in SearchAlgoType.allCases {
+//    
+//    let result = search(arr: sortedArr, number: Int.random(in: 1...10), algo: algoType)
+//    
+//    print("\(algoType.rawValue) Search Result :-> \(result) \n")
+//}
+
+
+testISBST()

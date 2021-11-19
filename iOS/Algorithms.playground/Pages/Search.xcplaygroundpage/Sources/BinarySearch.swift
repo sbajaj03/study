@@ -53,3 +53,50 @@ public func binarySearch(arr:[Int], number:Int) -> Bool {
     }
     return false
 }
+
+
+struct Node {
+    var data:Int
+    var left:Any?
+    var right:Any?
+}
+
+// ------------------------100------------------------
+// -----------------90----------110-------------------
+//--------------80-----95----105----120---------------
+
+func isBST(node:Node) -> Bool {
+    
+    func isBST(node:Node, min:Int = Int.min, max: Int = Int.max) -> Bool {
+      
+        if node.data < min || node.data > max {
+            return false
+        }
+        
+        var result = true
+        
+        if let left = node.left as? Node {
+            result = isBST(node: left, min: min, max: node.data)
+        }
+        
+        if result, let right = node.right as? Node {
+            result = isBST(node: right, min: node.data, max: max)
+        }
+        
+        return result
+    }
+    
+    return isBST(node: node)
+}
+
+let n2_h2_r = Node(data: 120, left: nil, right: nil)
+let n2_h2_l = Node(data: 105, left: nil, right: nil)
+let n1_h2_r = Node(data: 95, left: nil, right: nil)
+let n1_h2_l = Node(data: 80, left: nil, right: nil)
+let n1_h1_l = Node(data: 90, left: n1_h2_l, right: n1_h2_r)
+let n1_h1_r = Node(data: 110, left: n2_h2_l, right: n2_h2_r)
+let head = Node(data: 100, left: n1_h1_l, right: n1_h1_r)
+
+public func testISBST() {
+    print(isBST(node: head))
+}
