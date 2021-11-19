@@ -174,3 +174,100 @@ func isPalindrome(_ s: String) -> Bool {
 
 //print(isPalindrome("A man, a plan, a canal: Panama"))
 //print(isPalindrome("race a car"))
+
+/*
+ Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of the line i is at (i, ai) and (i, 0). Find two lines, which, together with the x-axis forms a container, such that the container contains the most water.
+ */
+
+func maxArea(_ height: [Int]) -> Int {
+    
+    var i = 0, j = height.count - 1 , res_area = Int.min
+    
+    while i <= j {
+        
+        let minH = min(height[i], height[j])
+        
+        let area = minH * (j - i)
+        
+        res_area = max(area, res_area)
+        
+        if height[i] < height[j] {
+            i += 1
+        }
+        else {
+            j -= 1
+        }
+    }
+    
+    return res_area
+}
+
+//print(maxArea([1,8,6,2,5,4,8,3,7]))
+/*
+Given an array of integers, and a number ‘sum’, find the number of pairs of integers in the array whose sum is equal to ‘sum’.
+*/
+
+func getPairsCount(arr:[Int], sum:Int) -> Int {
+    var dic = [Int:Int]()
+    var count = 0
+    for item in arr {
+        if let c = dic[sum - item]  {
+            count += c
+        }
+        
+        if let c = dic [item] {
+            dic[item] = c + 1
+        }
+        else {
+            dic[item] = 1
+        }
+    }
+    
+    return count
+}
+
+//print(getPairsCount(arr: [1, 5, 7, -1, 7], sum: 6))
+
+func checkDefer() {
+    
+    defer {
+        print("a")
+    }
+    defer {
+        print("b")
+    }
+    
+    print("c")
+    
+    defer {
+        print("d")
+    }
+    
+    DispatchQueue(label: "some").sync {
+        print("e")
+    }
+    
+    print("f")
+}
+
+//checkDefer()
+
+func checkStrongRefrenceCount() {
+    
+    var object:NSObject? = NSObject()
+    
+    DispatchQueue(label: "some").sync {
+    
+        var a:NSObject? = object
+        print(CFGetRetainCount(a))
+        print("aasdas")
+        a = nil
+        DispatchQueue(label: "some").sync {
+            let b = object
+            object = nil
+            print(CFGetRetainCount(b))
+        }
+    }
+}
+
+//checkStrongRefrenceCount()
