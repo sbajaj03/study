@@ -271,3 +271,200 @@ func checkStrongRefrenceCount() {
 }
 
 //checkStrongRefrenceCount()
+
+/* A permutation also called an “arrangement number” or “order,” is a rearrangement of the elements of an ordered list S into a one-to-one correspondence with S itself. A string of length n has n! permutation. */
+
+func permute(str:String) {
+
+    var arr = Array(str)
+    
+    func permute(arr: inout [Character], l:Int, r:Int) {
+        
+        if l == r {
+            print( arr.reduce("") { $0 + "\($1)"})
+        }
+        else {
+            for i in l...r {
+                print("swapping",arr[i],arr[l])
+                arr.swapAt(i, l)
+                permute(arr: &arr, l: l + 1, r: r)
+                arr.swapAt(i, l)
+            }
+        }
+    }
+    
+    permute(arr: &arr, l: 0, r: arr.count - 1)
+}
+
+//permute(str: "abc")
+
+func zigZagConcat(str:String, step:Int) -> String {
+    
+    // Check is n is less
+    // or equal to 1
+    guard step > 1 else{ return str }
+    
+    var res = ""
+    
+    for row in 0..<step {
+        
+        var i = row
+        
+        while i < str.count {
+            
+            res += "\(Array(str)[i])"
+            
+            if row == step - 1 {
+                i +=  ( 2 * step - 2)
+            }
+            else {
+                i += (2 * (step - row) - 2)
+            }
+        }
+    }
+    
+    return res
+}
+
+//print(zigZagConcat(str: "GEEKSFORGEEKS", step: 3))
+
+func maxSubarrayProduct(arr:[Int]) -> Int {
+    
+    // max positive product
+    // ending at the current position
+    var max_ending_here = 1
+ 
+    // min negative product ending
+    // at the current position
+    var min_ending_here = 1
+ 
+    // Initialize overall max product
+    var max_so_far = 0
+    var flag = false
+    /* Traverse through the array.
+    Following values are
+    maintained after the i'th iteration:
+    max_ending_here is always 1 or
+    some positive product ending with arr[i]
+    min_ending_here is always 1 or
+    some negative product ending with arr[i] */
+    for num in arr {
+        /* If this element is positive, update
+        max_ending_here. Update min_ending_here only if
+        min_ending_here is negative */
+        if (num > 0)
+        {
+            max_ending_here = max_ending_here * num
+            min_ending_here = min(min_ending_here * num, 1)
+            flag = true
+        }
+ 
+        /* If this element is 0, then the maximum product
+        cannot end here, make both max_ending_here and
+        min_ending_here 0
+        Assumption: Output is alway greater than or equal
+                    to 1. */
+        else if (num == 0) {
+            max_ending_here = 1
+            min_ending_here = 1
+        }
+ 
+        /* If element is negative. This is tricky
+         max_ending_here can either be 1 or positive.
+         min_ending_here can either be 1 or negative.
+         next max_ending_here will always be prev.
+         min_ending_here * arr[i] ,next min_ending_here
+         will be 1 if prev max_ending_here is 1, otherwise
+         next min_ending_here will be prev max_ending_here *
+         arr[i] */
+ 
+        else {
+            let temp = max_ending_here;
+            max_ending_here = max(min_ending_here * num, 1)
+            min_ending_here = temp * num
+        }
+ 
+        // update max_so_far, if needed
+        if (max_so_far < max_ending_here) {
+            max_so_far = max_ending_here
+        }
+          
+    }
+    
+    if (flag == false && max_so_far == 0) { return 0 }
+    
+    return max_so_far
+}
+ 
+//print(maxSubarrayProduct(arr: [ 1, -2, -3, 0, 7, -8, -2 ]))
+
+/*
+ You are given the root of a binary tree containing digits from 0 to 9 only.
+
+ Each root-to-leaf path in the tree represents a number.
+
+ For example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.
+ */
+class Node {
+    var data:Int
+    var left:Node?
+    var right:Node?
+    
+    init(data:Int,left:Node?,right:Node?) {
+        self.data = data
+        self.left = left
+        self.right = right
+        
+    }
+}
+
+
+let head = Node(data: 1,
+                left: Node(data: 2, left: Node(data: 4, left: nil, right: nil), right: nil),
+                right: Node(data: 3, left: nil, right: nil))
+
+//func sumNumbers(_ root: Node?) -> Int {
+//
+//    guard let _r = root else { return 0 }
+//
+//    var _str = "\(_r.data)"
+//
+//    func sumNumbers(_ node:Node?, str:String) -> String {
+//
+//        guard let _n = node else { return str }
+//
+//        return str + "\(_n.data)"
+//    }
+//
+//    let left = sumNumbers(root?.left, str: _str)
+//    let right = sumNumbers(root?.right, str: _str)
+//
+//    print(left,right)
+//    return 0
+//}
+
+//print(sumNumbers(head))
+
+func printAllCombinationsOfParanthesis(count: Int) {
+    
+    func printParenthesis(open:Int, close:Int, stra:String) {
+        print(open,close,stra)
+        if (open == 0 && close == 0) {
+            print(stra)
+        }
+        
+        if (open > close) { return }
+        
+        if (open > 0) {
+            printParenthesis(open: open - 1, close: close, stra: stra + "(")
+        }
+        
+        if (close > 0) {
+            printParenthesis(open: open , close: close - 1, stra: stra + ")")
+        }
+    }
+
+    printParenthesis(open: count , close: count, stra: "")
+}
+
+printAllCombinationsOfParanthesis(count: 2)
