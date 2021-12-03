@@ -5,8 +5,6 @@ import Foundation
 var arr = [64, 25, 12, 22, 11]
 
 func quickSort(arr:[Int]) {
-    
-    
 }
 
 //mergeSort(arr: &arr)
@@ -205,3 +203,6 @@ cache.get(value: 1)
 cache.printCahce()
 cache.set(value: 3)
 cache.printCahce()
+/// 2 1
+/// 1 2
+/// 3 1 2
