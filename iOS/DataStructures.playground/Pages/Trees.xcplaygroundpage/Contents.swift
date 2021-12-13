@@ -323,11 +323,11 @@ bst.insert(data: 20)
 bst.insert(data: 30)
 bst.insert(data: 5)
 bst.insert(data: 15)
-
-bst.root?.printlevelOrderTraversal()
-bst.root?.printInOrder()
-bst.root?.printPreorder()
-bst.root?.printPostOrder()
+//
+//bst.root?.printlevelOrderTraversal()
+//bst.root?.printInOrder()
+//bst.root?.printPreorder()
+//bst.root?.printPostOrder()
 //bst.root?.printlevelOrderTraversal()
 //print(bst.root?.height ?? 0)
 //bst.delete(data: 20)
@@ -342,3 +342,81 @@ bst.root?.printPostOrder()
 //bst.balanceIfNeeded()
 //bst.root?.printlevelOrderTraversal()
 
+var value = 1
+
+let clouser = { [value] in
+        print(value)
+}
+
+value = 2
+//clouser()
+
+func findCount(matrixInt:[[Int]]) -> Int {
+    
+    var count = 0
+    var land = Set<String>()
+    
+    for i in 0..<matrixInt.count  {
+
+        for j in 0..<matrixInt[i].count {
+           
+            let s = "\(i)\(j)"
+           
+            if matrixInt[i][j] == 1, !land.contains(s) {
+                land.insert(s)
+              
+                // check left
+                let l = j - 1
+                if l >= 0 {
+                    // check all left
+                    for a in max(i-1,0)...i+1 {
+                        if a < matrixInt[l].count {
+                            if matrixInt[l][a] == 1 {
+                                land.insert("\(i)\(j)")
+                            }
+                        }
+                    }
+                }
+                
+                // check top
+                if i-1 >= 0 {
+                    if matrixInt[i-1][j] == 1 {
+                        land.insert("\(i)\(j)")
+                    }
+                }
+               
+                
+                // check right
+                let r = j + 1
+                if r < matrixInt[i].count {
+                    // check all right
+                    for a in max(i-1,0)...i+1 {
+                      print("a ===>", a)
+                        if a < matrixInt[r].count {
+                            if matrixInt[r][a] == 1 {
+                                land.insert("\(i)\(j)")
+                            }
+                        }
+                    }
+                }
+            
+                // check bottom
+                if i + 1 < matrixInt.count {
+                    if matrixInt[i+1][j] == 1 {
+                        land.insert("\(i)\(j)")
+                    }
+                }
+                
+                count += 1
+            }
+        }
+    }
+    
+    return count
+}
+
+print(findCount(matrixInt: [[1, 1, 0, 0, 0],
+                            [0, 1, 0, 0, 1],
+                            [1, 0, 0, 1, 1],
+                            [0, 0, 0, 0, 0],
+                            [1, 0, 1, 0, 1]]))

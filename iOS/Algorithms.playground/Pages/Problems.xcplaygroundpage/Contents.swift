@@ -468,3 +468,54 @@ func printAllCombinationsOfParanthesis(count: Int) {
 }
 
 //printAllCombinationsOfParanthesis(count: 2)
+/*
+Task name: Sixt Sequence
+Task description: Let’s take a look at how to generate numbers in this sequence called Sixt Sequence.
+500055 ==> 510352
+Number 510352 is derived from 500055 in the following manner:
+Step 1: 500055
+Step 2: Count how many times each digit is repeated consecutively.
+Step 3: 5 occurred 1 time, 0 occurred 3 times, 5 occurred 2 times.
+Step4: 51, 03, 52
+Step5: 510352
+Similarly, 510352 ==> 51 11 01 31 51 21
+Sixt Sequence is 500055 ==> 510352 ==> 511101315121 ==> and so on...
+    1st      ==>    2nd     ==>        3rd
+ 
+Write a function that takes two arguments (starting number, n-th-number-in-the-sequence where n >= 1)
+Function signature:
+function sixtSequence(startNumber, n) where n >= 1
+For example, calling this function with
+sixtSequence(“500055”, 1) will return “500055” (1st number in the sequence)
+sixtSequence(“500055”, 2) will return “510352” (2nd number in the sequence)
+sixtSequence(“500055”, 3) will return “511101315121” (3rd number in the sequence)
+*/
+
+func sixtSequence(startNumber:String, n:Int) -> String {
+    
+    guard n > 1 else { return  startNumber }
+    
+    let chars = Array(startNumber)
+    
+    var res = ""
+    var currentChar = chars[0]
+    var count = 1
+    
+    for i in 1..<chars.count {
+        if currentChar == chars[i]
+        {
+            count += 1
+        }
+        else {
+            res += "\(currentChar)" + "\(count)"
+            currentChar = chars[i]
+            count = 1
+        }
+    }
+    
+    res += "\(currentChar)" + "\(count)"
+    
+    return sixtSequence(startNumber: res, n: n-1)
+}
+
+print(sixtSequence(startNumber: "500055", n: 3))
